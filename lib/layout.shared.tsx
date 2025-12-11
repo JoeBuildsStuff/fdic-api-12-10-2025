@@ -5,5 +5,6 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: 'FDIC Bank Data API',
     },
+    githubUrl: 'https://github.com/JoeBuildsStuff/fdic-api-12-10-2025',
   };
 }
