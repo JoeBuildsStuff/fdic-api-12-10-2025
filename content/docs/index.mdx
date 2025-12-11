@@ -1,13 +1,61 @@
 ---
-title: Hello World
-description: Your first document
+title: FDIC Bank Data API
+description: API to serve banking industry data to the public
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+Welcome to the FDIC Bank Data API documentation. This API provides access to comprehensive banking industry data including financial institution information, historical data, bank failures, and more.
 
-## What is Next?
+## API Overview
+
+The FDIC Bank Data API (Beta) serves banking industry data to the public, offering access to:
+
+- Financial institution demographic and location information
+- Historical data from 1934 onward
+- Bank failure records
+- Financial information for FDIC insured institutions
+- Summary of deposits data
+- Demographics information
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.fdic.gov/banks
+```
+
+## API Endpoints
+
+### Structure
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card title="Get Financial Institutions" href="/docs/searchInstitutions" description="Returns a list of financial institutions" />
+  <Card title="Get Institution Locations" href="/docs/searchLocations" description="Returns locations/branches of financial institutions" />
 </Cards>
+
+### Historical Data
+
+<Cards>
+  <Card title="Get Historical Aggregate Data" href="/docs/getHistorical" description="Returns aggregate financial and structure data by year" />
+  <Card title="Structure History" href="/docs/getHistory" description="Returns details on structure change events" />
+</Cards>
+
+### Financial Information
+
+<Cards>
+  <Card title="Get Financial Information" href="/docs/getFinancials" description="Returns financial information for FDIC insured institutions" />
+  <Card title="Summary of Deposits" href="/docs/getSod" description="Returns summary of deposits information for institutions" />
+</Cards>
+
+### Additional Data
+
+<Cards>
+  <Card title="Bank Failures" href="/docs/getFailures" description="Get detail on historical bank failures from 1934 to present" />
+  <Card title="Demographic Information" href="/docs/getDemographics" description="Returns summary of demographic information" />
+</Cards>
+
+## Contact
+
+For feedback or questions about this API, please contact:
+
+**Email:** PublicDataFeedback@fdic.gov
