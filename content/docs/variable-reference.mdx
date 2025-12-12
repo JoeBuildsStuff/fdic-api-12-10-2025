@@ -1,0 +1,13 @@
+---
+title: Variable Reference
+description: Searchable definitions for every FDIC Bank Data API field.
+---
+
+import { VariableReferenceTable } from '@/components/ui/variable-reference-table';
+import { variableDefinitions } from '@/lib/data/variable-definitions';
+
+The FDIC publishes a canonical dictionary for every field returned by the Bank Data API. Use the table
+below to look up codes, understand the official description, and confirm whether a field is the one you
+need before constructing a query.
+
+<VariableReferenceTable items={variableDefinitions} />

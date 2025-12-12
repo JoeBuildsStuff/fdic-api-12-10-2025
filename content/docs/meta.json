@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "index",
+    "variable-reference",
+    "searchInstitutions",
+    "getFinancials",
+    "searchLocations",
+    "getDemographics",
+    "getHistorical",
+    "getHistory",
+    "getSod",
+    "getFailures"
+  ]
+}
