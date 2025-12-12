@@ -1,0 +1,99 @@
+---
+title: Total Assets Report
+description: Standard report showing total assets breakdown for FDIC-insured institutions
+---
+
+# Total Assets Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/total-assets-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of total assets for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following asset categories:
+
+- **Cash and Balances due from Depository Institutions** - Cash on hand and balances with other banks
+- **Securities** - Investment securities held by the institution
+- **Federal Funds Sold & Reverse Repurchase Agreements** - Short-term lending to other institutions
+- **Net Loans and Leases** - Total loans and leases net of unearned income and allowances
+- **Trading Account Assets** - Assets held for trading purposes
+- **Bank Premises and Fixed Assets** - Physical property and equipment
+- **Other Real Estate Owned (ORE)** - Foreclosed real estate properties
+- **Goodwill and Other Intangibles** - Intangible assets including goodwill
+- **All Other Assets** - Miscellaneous assets not categorized elsewhere
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,ASSET,CHBAL,CHBALNI,CHBALI,CHCIC,CHITEM,CHCOIN,CHUS,CHNUS,CHFRB,SC,SCUS,SCUST,SCUSO,SCASPNSUM,SCFMN,SCGNM,SCCOL,SCCPTG,SCCMOG,SCMUNI,SCDOMO,SCRMBPI,SCCMOS,SCABS,SCSFP,SCODOT,SCFORD,SCEQNFT,SCEQ,SCEQFV,SCHTMRES,SCTATFR,SCPLEDGE,SCMTGBK,SCGTY,SCODPC,SCODPI,SCCMPT,SCCMOT,SCHA,SCAF,SCRDEBT,SCPT3LES,SCPT3T12,SCPT3T5,SCPT5T15,SCPTOV15,SCO3YLES,SCOOV3Y,SCNM3LES,SCNM3T12,SCNM1T3,SCNM3T5,SCNM5T15,SCNMOV15,SC1LES,SCSNHAA,SCSNHAF,TRADE,TRREVALSUM,TRLREVAL,FREPO,LNLSNET,LNATRES,LNLSGR,LNCONTRA,LNLSGRS,LNRE,LNREDOM,LNRECONS,LNRENRES,LNREMULT,LNRERES,LNREAG,LNREFOR,LNAG,LNCI,LNCON,LNCRCD,LNCONRP,LNAUTO,LNCONOTH,LNOTCI,LNFG,LNMUNI,LNSOTHER,LS,LNCOMRE,LNRENUS,LNPLEDGE,RB2LNRES,LNLSSALE,LNEXAMT,LNRENROW,LNRENROT,LNRERSFM,LNRERSF2,LNRELOC,LNRERSF1,LNRECNFM,LNRECNOT,RSLNLTOT,RSLNREFM,RSLNLS,P3RSLNLT,P3RSLNFM,P3RSLNLS,P9RSLNLT,P9RSLNFM,P9RSLNLS,NARSLNLT,NARSLNFM,NARSLNLS,LNLSGRF,UNINCFOR,LNLSFOR,LNDEPAOBK,LNDEPCBF,LNDEPUSF,LNDEPFCF,LNAGFOR,LNCIFOR,LNCINUSF,LNCONFOR,LNFGFOR,LNMUNIF,LNOTHERF,LSFOR,LNRS3LES,LNRS3T12,LNRS1T3,LNRS3T5,LNRS5T15,LNRSOV15,LNOT3LES,LNOT3T12,LNOT1T3,LNOT3T5,LNOT5T15,LNOTOV15,LNRENR4,LNRENR1,LNRENR2,LNRENR3,LNCI4,LNCI1,LNCI2,LNCI3,LNREAG4,LNREAG1,LNREAG2,LNREAG3,LNAG4,LNAG1,LNAG2,LNAG3,LNRENR4N,LNRENR1N,LNRENR2N,LNRENR3N,LNCI4N,LNCI1N,LNCI2N,LNCI3N,LNREAG4N,LNREAG1N,LNREAG2N,LNREAG3N,LNAG4N,LNAG1N,LNAG2N,LNAG3N,PPPLNNUM,PPPLNBAL,PPPLNPLG,PPPLF1LS,PPPLFOV1,AVPPPPLG,MMLFBAL,AVMMLF,BKPREM,ORE,OREINV,OREOTH,ORERES,OREMULT,ORENRES,ORECONS,OREAG,OREOTHF,INTAN,INTANGW,INTANMSR,INTANOTH,AOA&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of asset-related fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Cash and balances (CHBAL, CHBALNI, CHBALI, etc.)
+  - Securities (SC, SCUS, SCUST, etc.)
+  - Loans and leases (LNLSNET, LNRE, LNAG, LNCI, etc.)
+  - Trading assets (TRADE, TRREVALSUM)
+  - Bank premises (BKPREM)
+  - Other real estate owned (ORE, OREINV, etc.)
+  - Intangibles (INTAN, INTANGW, etc.)
+  - All other assets (AOA)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=total_assets_report"
+```
+
+## Key Fields Explained
+
+- **ASSET** - Total assets
+- **CHBAL** - Cash and balances due from depository institutions
+- **SC** - Total securities
+- **FREPO** - Federal funds sold and reverse repurchase agreements
+- **LNLSNET** - Net loans and leases
+- **TRADE** - Trading account assets
+- **BKPREM** - Bank premises and fixed assets
+- **ORE** - Other real estate owned
+- **INTAN** - Goodwill and other intangibles
+- **AOA** - All other assets
+
+## Use Cases
+
+- Financial analysis and benchmarking
+- Regulatory reporting
+- Risk assessment
+- Market research
+- Portfolio analysis
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`

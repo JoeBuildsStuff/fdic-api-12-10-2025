@@ -1,0 +1,102 @@
+---
+title: Total Liabilities and Capital Report
+description: Standard report showing total liabilities and equity capital for FDIC-insured institutions
+---
+
+# Total Liabilities and Capital Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/liabilities-capital-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive view of total liabilities and equity capital for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes:
+
+- **Total Liabilities** - All obligations and debts of the institution
+- **Total Equity Capital** - Owner's equity and retained earnings
+- **Memoranda assets, liabilities & equity** - Additional reference information
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,LIABEQ,LIAB,DEP,DEPDOM,ESTINS,TRN,TRNIPCOC,TRNUSGOV,TRNMUNI,TRNCBO,TRNFCFG,NTR,NTRIPC,NTRUSGOV,NTRMUNI,NTRCOMOT,NTRFCFG,DEPFOR,DEPIPCCF,DEPUSBKF,DEPFBKF,DEPFGOVF,DEPUSMF,DEPNIFOR,DEPIFOR,DDT,NTRSMMDA,NTRSOTH,TS,DEPNIDOM,DEPIDOM,COREDEP,DEPINS,DEPUNA,IRAKEOGH,BRO,BROINS,DEPLSNB,DEPCSBQ,DEPSMAMT,DEPSMB,DEPLGAMT,DEPLGB,DEPSMRA,DEPSMRN,DEPLGRA,DEPLGRN,TRNNIA,TRNNIN,NTRCDSM,NTRTMMED,NTRTMLGJ,CD3LESS,CD3T12S,CD1T3S,CDOV3S,CD3LES,CD3T12,CD1T3,CDOV3,FREPP,TRADEL,OTHBRF,OTBFH1L,OTBFH1T3,OTBFH3T5,OTBFHOV5,OTBFHSTA,OTBOT1L,OTBOT1T3,OTBOT3T5,OTBOTOV5,OTHBOT1L,SUBND,ALLOTHL,EQTOT,EQ,EQPP,EQCS,EQSUR,EQUPTOT,EQCONSUB,EQCPREV,EQCREST,NETINC,EQCSTKRX,EQCTRSTX,EQCMRG,EQCDIVP,EQCDIVC,EQCCOMPI,EQCBHCTR,ASSTLT,ASSET2,ASSET5,ERNAST,OALIFINS,OALIFGEN,OALIFHYB,OALIFSEP,AVASSETJ,RWAJT,RBCT2,RBCT1J,OTHBFHLB,VOLIAB&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of liability and equity fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total liabilities (LIAB, LIABEQ)
+  - Deposits (DEP, DEPDOM, COREDEP, DEPINS, etc.)
+  - Trading liabilities (TRADEL)
+  - Federal funds purchased (FREPP)
+  - Other borrowed funds (OTHBRF, OTBOT1L, etc.)
+  - Subordinated debt (SUBND)
+  - All other liabilities (ALLOTHL)
+  - Equity capital (EQTOT, EQ, EQPP, EQCS, EQSUR, etc.)
+  - Net income (NETINC)
+  - Memoranda items (ASSTLT, ASSET2, ASSET5, etc.)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=liabilities_capital_report"
+```
+
+## Key Fields Explained
+
+- **LIABEQ** - Total liabilities and equity
+- **LIAB** - Total liabilities
+- **DEP** - Total deposits
+- **DEPDOM** - Domestic deposits
+- **COREDEP** - Core deposits
+- **DEPINS** - Insured deposits
+- **FREPP** - Federal funds purchased and repurchase agreements
+- **TRADEL** - Trading account liabilities
+- **OTHBRF** - Other borrowed funds
+- **SUBND** - Subordinated debt
+- **ALLOTHL** - All other liabilities
+- **EQTOT** - Total equity capital
+- **EQ** - Total equity
+- **EQPP** - Perpetual preferred stock
+- **EQCS** - Common stock
+- **EQSUR** - Surplus
+- **NETINC** - Net income
+
+## Use Cases
+
+- Balance sheet analysis
+- Capital adequacy assessment
+- Deposit composition analysis
+- Regulatory capital calculations
+- Financial health monitoring
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`

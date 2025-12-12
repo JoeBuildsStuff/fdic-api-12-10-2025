@@ -1,0 +1,196 @@
+---
+title: Bank Assets Sold and Securitized Report
+description: Standard report showing assets sold and securitized by FDIC-insured institutions
+---
+
+# Bank Assets Sold and Securitized Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/assets-sold-securitized-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides detailed information on assets that have been sold or securitized by active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes:
+
+- **1-4 Family Residential Loans** - Principal balance sold and securitized
+- **Home Equity Lines** - Principal balance sold and securitized
+- **Credit Card Receivables** - Principal balance sold and securitized
+- **Auto Loans** - Principal balance sold and securitized
+- **Other Consumer Loans** - Principal balance sold and securitized
+- **Commercial and Industrial (C&I) Loans** - Principal balance sold and securitized
+- **All Other Loans & Leases** - Principal balance sold and securitized
+- **Maximum Credit Exposure** - For securitizations sponsored by other institutions
+- **Assets Sold with Recourse** - 1-4 Family Residential Loans and All Other Loans
+- **Memo: Bank Assets Sold and Securitized** - Additional reference information
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=ASSET,DEP,CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,SZLNRES,SZISLRES,SZ30RES,SZ90RES,SZDRRES,SZCRRES,SZLNHEL,SZISLHEL,SZ30HEL,SZ90HEL,SZDRHEL,SZCRHEL,SZLNCRCD,SZISLCCD,SZ30CRCD,SZ90CRCD,SZDRCRCD,SZCRCRCD,SZLAUTO,SZISLAUT,SZ30AUTO,SZ90AUTO,SZDRAUTO,SZCRAUTO,SZLNCON,SZISLCON,SZ30CON,SZ90CON,SZDRCON,SZCRCON,SZLNCI,SZISLCI,SZ30CI,SZ90CI,SZDRCI,SZCRCI,SZLNOTH,SZISLOTH,SZ30OTH,SZ90OTH,SZDROTH,SZCROTH,ENCERES,ENCEAUTO,ENCECON,ENCECI,ENCEOTH,ASDRRES,ASCERES,ASDROTH,ASCEOTH,MSRECE,MSRNRECE,LNSERV,MSRESFCL,ABCXBK,ABCXOTH,ABCUBK,ABCUOTH,SZCRCDFE&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of assets sold and securitized fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - **1-4 Family Residential Loans (SZLNRES prefix)**:
+    - SZLNRES - Total 1-4 family residential loans sold/securitized
+    - SZISLRES - Interest-only strips sold/securitized
+    - SZ30RES - 30-89 days past due sold/securitized
+    - SZ90RES - 90+ days past due sold/securitized
+    - SZDRRES - Delinquent and restructured sold/securitized
+    - SZCRRES - Credit enhanced sold/securitized
+  - **Home Equity Lines (SZLNHEL prefix)**:
+    - SZLNHEL - Total home equity lines sold/securitized
+    - SZISLHEL - Interest-only strips sold/securitized
+    - SZ30HEL - 30-89 days past due sold/securitized
+    - SZ90HEL - 90+ days past due sold/securitized
+    - SZDRHEL - Delinquent and restructured sold/securitized
+    - SZCRHEL - Credit enhanced sold/securitized
+  - **Credit Card Receivables (SZLNCRCD prefix)**:
+    - SZLNCRCD - Total credit card receivables sold/securitized
+    - SZISLCCD - Interest-only strips sold/securitized
+    - SZ30CRCD - 30-89 days past due sold/securitized
+    - SZ90CRCD - 90+ days past due sold/securitized
+    - SZDRCRCD - Delinquent and restructured sold/securitized
+    - SZCRCRCD - Credit enhanced sold/securitized
+  - **Auto Loans (SZLAUTO prefix)**:
+    - SZLAUTO - Total auto loans sold/securitized
+    - SZISLAUT - Interest-only strips sold/securitized
+    - SZ30AUTO - 30-89 days past due sold/securitized
+    - SZ90AUTO - 90+ days past due sold/securitized
+    - SZDRAUTO - Delinquent and restructured sold/securitized
+    - SZCRAUTO - Credit enhanced sold/securitized
+  - **Other Consumer Loans (SZLNCON prefix)**:
+    - SZLNCON - Total other consumer loans sold/securitized
+    - SZISLCON - Interest-only strips sold/securitized
+    - SZ30CON - 30-89 days past due sold/securitized
+    - SZ90CON - 90+ days past due sold/securitized
+    - SZDRCON - Delinquent and restructured sold/securitized
+    - SZCRCON - Credit enhanced sold/securitized
+  - **Commercial and Industrial Loans (SZLNCI prefix)**:
+    - SZLNCI - Total C&I loans sold/securitized
+    - SZISLCI - Interest-only strips sold/securitized
+    - SZ30CI - 30-89 days past due sold/securitized
+    - SZ90CI - 90+ days past due sold/securitized
+    - SZDRCI - Delinquent and restructured sold/securitized
+    - SZCRCI - Credit enhanced sold/securitized
+  - **All Other Loans (SZLNOTH prefix)**:
+    - SZLNOTH - Total other loans sold/securitized
+    - SZISLOTH - Interest-only strips sold/securitized
+    - SZ30OTH - 30-89 days past due sold/securitized
+    - SZ90OTH - 90+ days past due sold/securitized
+    - SZDROTH - Delinquent and restructured sold/securitized
+    - SZCROTH - Credit enhanced sold/securitized
+  - **Maximum Credit Exposure (ENCE prefix)**:
+    - ENCERES - Maximum credit exposure - residential
+    - ENCEAUTO - Maximum credit exposure - auto
+    - ENCECON - Maximum credit exposure - consumer
+    - ENCECI - Maximum credit exposure - C&I
+    - ENCEOTH - Maximum credit exposure - other
+  - **Assets Sold with Recourse (ASDR, ASCE prefixes)**:
+    - ASDRRES - Assets sold with recourse - residential
+    - ASCERES - Assets sold with credit enhancement - residential
+    - ASDROTH - Assets sold with recourse - other
+    - ASCEOTH - Assets sold with credit enhancement - other
+  - **Memo Items**:
+    - MSRECE - Maximum securitization receivables
+    - MSRNRECE - Maximum securitization receivables - non-recourse
+    - LNSERV - Loan servicing
+    - MSRESFCL - Maximum securitization receivables - first loss credit
+    - ABCXBK - Assets backed by credit - bank
+    - ABCXOTH - Assets backed by credit - other
+    - ABCUBK - Assets backed by credit - unconsolidated bank
+    - ABCUOTH - Assets backed by credit - unconsolidated other
+    - SZCRCDFE - Credit card receivables sold/securitized - credit enhancement
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=assets_sold_securitized_report"
+```
+
+## Key Fields Explained
+
+### Residential Loans Sold/Securitized
+- **SZLNRES** - Total 1-4 family residential loans sold/securitized
+- **SZISLRES** - Interest-only strips sold/securitized
+- **SZ30RES** - 30-89 days past due sold/securitized
+- **SZ90RES** - 90+ days past due sold/securitized
+
+### Home Equity Lines Sold/Securitized
+- **SZLNHEL** - Total home equity lines sold/securitized
+- **SZISLHEL** - Interest-only strips sold/securitized
+- **SZ30HEL** - 30-89 days past due sold/securitized
+- **SZ90HEL** - 90+ days past due sold/securitized
+
+### Credit Card Receivables Sold/Securitized
+- **SZLNCRCD** - Total credit card receivables sold/securitized
+- **SZISLCCD** - Interest-only strips sold/securitized
+- **SZ30CRCD** - 30-89 days past due sold/securitized
+- **SZ90CRCD** - 90+ days past due sold/securitized
+
+### Auto Loans Sold/Securitized
+- **SZLAUTO** - Total auto loans sold/securitized
+- **SZISLAUT** - Interest-only strips sold/securitized
+- **SZ30AUTO** - 30-89 days past due sold/securitized
+- **SZ90AUTO** - 90+ days past due sold/securitized
+
+### Commercial and Industrial Loans Sold/Securitized
+- **SZLNCI** - Total C&I loans sold/securitized
+- **SZISLCI** - Interest-only strips sold/securitized
+- **SZ30CI** - 30-89 days past due sold/securitized
+- **SZ90CI** - 90+ days past due sold/securitized
+
+### Maximum Credit Exposure
+- **ENCERES** - Maximum credit exposure - residential
+- **ENCEAUTO** - Maximum credit exposure - auto
+- **ENCECON** - Maximum credit exposure - consumer
+- **ENCECI** - Maximum credit exposure - C&I
+- **ENCEOTH** - Maximum credit exposure - other
+
+### Assets Sold with Recourse
+- **ASDRRES** - Assets sold with recourse - residential
+- **ASCERES** - Assets sold with credit enhancement - residential
+- **ASDROTH** - Assets sold with recourse - other
+- **ASCEOTH** - Assets sold with credit enhancement - other
+
+## Use Cases
+
+- Securitization activity analysis
+- Risk assessment of sold assets
+- Credit exposure monitoring
+- Regulatory reporting for securitizations
+- Portfolio management analysis
+
+## Notes
+
+- Assets sold and securitized represent loans removed from the balance sheet
+- Recourse provisions may create ongoing risk exposure
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Maximum credit exposure represents potential future obligations
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`

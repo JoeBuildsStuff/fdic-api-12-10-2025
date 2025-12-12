@@ -1,0 +1,142 @@
+---
+title: Fiduciary and Related Services Report
+description: Standard report showing fiduciary powers, accounts, assets, and income for FDIC-insured institutions
+---
+
+# Fiduciary and Related Services Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/fiduciary-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides comprehensive information on fiduciary and related services for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes:
+
+- **Number with Fiduciary Powers Granted** - Institutions with fiduciary powers
+- **Number with Fiduciary Power Exercised** - Institutions actively exercising fiduciary powers
+- **Number with Fiduciary or Related Activity** - Institutions with fiduciary or related activity
+- **Number of Fiduciary Accounts and Related Asset Accounts** - Total account counts
+- **Total Fiduciary and Related Assets** - Total assets under management
+- **Fiduciary and Related Services Income (YTD Only)** - Year-to-date income from fiduciary services
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,ASSET,DEP,TRPOWER,TREXER,TRACT,NFAA,TTNANUM,TPMANUM,TECMANUM,TEBMANUM,TORMANUM,TCAMANUM,TIMMANUM,TFEMANUM,TOFMANUM,TMAFNUM,TRHMANUM,TMASMFN,TTNMNUM,TPNMNUM,TECNMNUM,TEBNMNUM,TORNMNUM,TCANMNUM,TIMNMNUM,TFENMNUM,TOFNMNUM,TCSNMNUM,TNMNUMF,TRHNMNUM,TFRA,TTMA,TPMA,TECMA,TEBMA,TORMA,TCAMA,TIMMA,TFEMA,TOFMA,TMAF,TRHMA,TMASMF,TPIMATOT,TPINI,TPII,TPISCUS,TPISCMUN,TPIMMF,TPIEQF,TPIOTHF,TPITRF,TPISTO,TPIOTHB,TPIUF,TPICPS,TPIREMTG,TPIRE,TPIMISC,TEMATOT,TENI,TEI,TESCUS,TESCMUN,TEMMF,TEEQF,TEOTHF,TETRF,TESTO,TEOTHB,TEUF,TECPS,TEREMTG,TERE,TEMISC,TOMATOT,TONI,TOI,TOSCUS,TOSCMUN,TOMMF,TOEQF,TOOTHF,TOTRF,TOSTO,TOOTHB,TOUF,TOCPS,TOREMTG,TORE,TOMISC,TTNMA,TPNMA,TECNMA,TEBNMA,TORNMA,TCANMA,TIMNMA,TFENMA,TOFNMA,TCSNMA,TNMAF,TRHNMA,TCAPAO,TCAPAOD,TCANUM,TCANUMD,TCATNUM,TCTOTNUM,TCDENUM,TCIENUM,TCSBNUM,TCTBNUM,TCMBNUM,TCSTNUM,TCSONUM,TCTOTMV,TCDEMV,TCIEMV,TCSBMV,TCTBMV,TCMBMV,TCSTMV,TCSOMV,TIP,TIEC,TIEB,TIOR,TICA,TIMA,TIFE,TIOF,TICS,TIR,IFIDUC,TETOT,TNL,TINTRA,TNI,TITOTF,TTOTMAGL,TTOTNMGL,TPNMGL,TRTNMGL,TOFNMAGL,TTOTREC,TPTREC,TRTREC,TIMREC,TOFREC&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of fiduciary and related services fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - **Fiduciary Powers and Activity**:
+    - TRPOWER - Fiduciary powers granted (1=yes, 0=no)
+    - TREXER - Fiduciary powers exercised (1=yes, 0=no)
+    - TRACT - Fiduciary or related activity (1=yes, 0=no)
+  - **Fiduciary Assets (TFRA, TTMA, TPMA, etc.)**:
+    - TFRA - Total fiduciary and related assets
+    - TTMA - Total managed assets
+    - TPMA - Personal managed assets
+    - TECMA - Employee benefit managed assets
+    - TEBMA - Employee benefit managed assets (alternative)
+    - TORMA - Other managed assets
+    - TCAMA - Corporate agency managed assets
+    - TIMMA - Investment management managed assets
+    - TFEMA - Foundation/endowment managed assets
+    - TOFMA - Other fiduciary managed assets
+    - TMAF - Total managed assets - fiduciary
+    - TRHMA - Retirement health managed assets
+    - TMASMF - Total managed assets - self-managed funds
+  - **Fiduciary Accounts (NUM suffix)**:
+    - TTNANUM - Total trust accounts number
+    - TPMANUM - Personal managed accounts number
+    - TECMANUM - Employee benefit managed accounts number
+    - And other NUM-suffixed fields for account counts
+  - **Fiduciary Income (TPI, TEI, TOI prefixes)**:
+    - TPIMATOT - Personal investment management assets total
+    - TPINI - Personal investment management income
+    - TPII - Personal investment management income (alternative)
+    - TEMATOT - Employee benefit investment management assets total
+    - TENI - Employee benefit investment management income
+    - TEI - Employee benefit investment management income (alternative)
+    - TOMATOT - Other investment management assets total
+    - TONI - Other investment management income
+    - TOI - Other investment management income (alternative)
+  - **Other Fiduciary Items**:
+    - IFIDUC - Income from fiduciary activities
+    - TETOT - Total employee benefit assets
+    - TNL - Trust net loans
+    - TINTRA - Trust intra-bank transactions
+    - TNI - Trust net income
+    - TITOTF - Total investment trust assets - fiduciary
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=fiduciary_services_report"
+```
+
+## Key Fields Explained
+
+### Fiduciary Powers
+- **TRPOWER** - Fiduciary powers granted (1=yes, 0=no)
+- **TREXER** - Fiduciary powers exercised (1=yes, 0=no)
+- **TRACT** - Fiduciary or related activity (1=yes, 0=no)
+
+### Fiduciary Assets
+- **TFRA** - Total fiduciary and related assets
+- **TTMA** - Total managed assets
+- **TPMA** - Personal managed assets
+- **TECMA** - Employee benefit managed assets
+- **TORMA** - Other managed assets
+- **TCAMA** - Corporate agency managed assets
+
+### Fiduciary Accounts
+- **TTNANUM** - Total trust accounts number
+- **TPMANUM** - Personal managed accounts number
+- **TECMANUM** - Employee benefit managed accounts number
+
+### Fiduciary Income
+- **IFIDUC** - Income from fiduciary activities
+- **TPINI** - Personal investment management income
+- **TENI** - Employee benefit investment management income
+- **TONI** - Other investment management income
+
+## Use Cases
+
+- Trust department analysis
+- Fiduciary services market research
+- Revenue analysis from fiduciary activities
+- Asset under management tracking
+- Regulatory compliance for trust activities
+
+## Notes
+
+- Fiduciary services include trust, investment management, and related services
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Income fields (IFIDUC, TPINI, etc.) are year-to-date only
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`

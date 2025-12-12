@@ -1,0 +1,127 @@
+---
+title: Loss-Sharing Agreements Report
+description: Standard report showing assets covered by loss-sharing agreements with the FDIC
+---
+
+# Assets Covered by Loss-Sharing Agreements Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/loss-sharing-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides information on assets covered by loss-sharing agreements with the FDIC for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes:
+
+- **Carrying amount of covered loans and leases** - Total loans and leases covered by loss-sharing agreements
+- **Carrying amount of covered loans and leases 30-89 days past due** - Covered assets that are 30-89 days past due
+- **Carrying amount of covered loans and leases 90 days or more past due** - Covered assets that are 90+ days past due
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,LSALNLS,LRECONS,LREAG,LRERES,LREMULT,LRENRES,LCI,LCON,LAG,LOTH,P3LTOT,P3LRECON,P3LREAG,P3LRERES,P3LREMUL,P3LRENRS,P3LCI,P3LCON,P3LAG,P3LOTH,P3LGTY,P9LTOT,P9LRECON,P9LREAG,P9LRERES,P9LREMUL,P9LRENRS,P9LCI,P9LCON,P9LAG,P9LOTH,P9LGTY,NALTOT,NALRECON,NALREAG,NALRERES,NALREMUL,NALRENRS,NALCI,NALCON,NALAG,NALOTH,NALGTY,LSAORE,LOREGTY,LSASCDBT,LSAOA&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of loss-sharing agreement fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - **Total Covered Assets (LS prefix)**:
+    - LSALNLS - Total loans and leases covered by loss-sharing
+    - LRECONS - Covered construction loans
+    - LREAG - Covered agricultural real estate loans
+    - LRERES - Covered residential real estate loans
+    - LREMULT - Covered multifamily real estate loans
+    - LRENRES - Covered nonresidential real estate loans
+    - LCI - Covered commercial and industrial loans
+    - LCON - Covered consumer loans
+    - LAG - Covered agricultural loans
+    - LOTH - Covered other loans
+  - **30-89 Days Past Due Covered (P3L prefix)**:
+    - P3LTOT - Total covered assets past due 30-89 days
+    - P3LRECON - Covered construction loans past due 30-89 days
+    - P3LREAG - Covered agricultural real estate past due 30-89 days
+    - And other P3L-prefixed fields
+  - **90+ Days Past Due Covered (P9L prefix)**:
+    - P9LTOT - Total covered assets past due 90+ days
+    - P9LRECON - Covered construction loans past due 90+ days
+    - P9LREAG - Covered agricultural real estate past due 90+ days
+    - And other P9L-prefixed fields
+  - **Nonaccrual Covered (NAL prefix)**:
+    - NALTOT - Total nonaccrual covered assets
+    - NALRECON - Nonaccrual covered construction loans
+    - NALREAG - Nonaccrual covered agricultural real estate
+    - And other NAL-prefixed fields
+  - **Other Covered Assets**:
+    - LSAORE - Covered other real estate owned
+    - LSASCDBT - Covered securities debt
+    - LSAOA - Covered all other assets
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=loss_sharing_report"
+```
+
+## Key Fields Explained
+
+### Total Covered Assets
+- **LSALNLS** - Total loans and leases covered by loss-sharing agreements
+- **LRECONS** - Covered construction loans
+- **LREAG** - Covered agricultural real estate loans
+- **LRERES** - Covered residential real estate loans
+- **LREMULT** - Covered multifamily real estate loans
+- **LRENRES** - Covered nonresidential real estate loans
+- **LCI** - Covered commercial and industrial loans
+- **LCON** - Covered consumer loans
+- **LAG** - Covered agricultural loans
+- **LOTH** - Covered other loans
+
+### Past Due Covered Assets
+- **P3LTOT** - Total covered assets past due 30-89 days
+- **P9LTOT** - Total covered assets past due 90+ days
+- **NALTOT** - Total nonaccrual covered assets
+
+### Other Covered Assets
+- **LSAORE** - Covered other real estate owned
+- **LSASCDBT** - Covered securities debt
+- **LSAOA** - Covered all other assets
+
+## Use Cases
+
+- Monitoring assets acquired through failed bank acquisitions
+- Tracking performance of covered assets
+- Regulatory reporting for loss-sharing agreements
+- Risk assessment of covered portfolios
+- Financial analysis of institutions with loss-sharing agreements
+
+## Notes
+
+- Loss-sharing agreements are typically associated with failed bank acquisitions
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- These agreements provide protection against losses on covered assets
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`

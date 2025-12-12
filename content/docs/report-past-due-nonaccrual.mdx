@@ -1,0 +1,123 @@
+---
+title: Past Due and Nonaccrual Assets Report
+description: Standard report showing past due and nonaccrual assets for FDIC-insured institutions
+---
+
+# Past Due and Nonaccrual Assets Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/past-due-nonaccrual-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides detailed information on assets that are past due or in nonaccrual status for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes:
+
+- **Assets Past Due 30-89 Days** - Loans and other assets that are 30 to 89 days past due
+- **Assets Past Due 90 or More Days** - Loans and other assets that are 90 days or more past due
+- **Assets in Nonaccrual Status** - Assets that are no longer accruing interest
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,P3ASSET,P3RE,P3RENUS,P3RELNDO,P3RECONS,P3RECNFM,P3RECNOT,P3REAG,P3RERES,P3RERSFM,P3RERSF2,P3RELOC,P3REMULT,P3RENRES,P3RENROW,P3RENROT,P3REFOR,P3DEP,P3DEPNUS,P3AG,P3CI,P3CINUS,P3CON,P3CRCD,P3AUTO,P3CONOTH,P3FG,P3OTHLN,P3LS,P3SCDEBT,P3AGSM,P3LNSALE,P3GTYPAR,P3GTY,P3GTYGNM,P9ASSET,P9RE,P9RENUS,P9RELNDO,P9RECONS,P9RECNFM,P9RECNOT,P9REAG,P9RERES,P9RERSFM,P9RERSF2,P9RELOC,P9REMULT,P9RENRES,P9RENROW,P9RENROT,P9REFOR,P9DEP,P9DEPNUS,P9AG,P9CI,P9CINUS,P9CON,P9CRCD,P9AUTO,P9CONOTH,P9FG,P9OTHLN,P9LS,P9SCDEBT,P9AGSM,P9LNSALE,P9GTYPAR,P9GTY,P9GTYGNM,NAASSET,NARE,NARENUS,NARELNDO,NARECONS,NARECNFM,NARECNOT,NAREAG,NARERES,NARERSFM,NARERSF2,NARELOC,NAREMULT,NARENRES,NARENROW,NARENROT,NAREFOR,NADEP,NADEPNUS,NAAG,NACI,NACINUS,NACON,NACRCD,NAAUTO,NACONOTH,NAFG,NAOTHLN,NALS,NASCDEBT,NAAGSM,NALNSALE,NAGTYPAR,NAGTY,NAGTYGNM&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Comprehensive list of past due and nonaccrual fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - **30-89 Days Past Due (P3 prefix)**:
+    - P3ASSET - Total assets past due 30-89 days
+    - P3RE - Real estate loans past due 30-89 days
+    - P3AG - Agricultural loans past due 30-89 days
+    - P3CI - Commercial and industrial loans past due 30-89 days
+    - P3CON - Consumer loans past due 30-89 days
+    - P3CRCD - Credit card loans past due 30-89 days
+    - P3AUTO - Auto loans past due 30-89 days
+    - And other P3-prefixed fields
+  - **90+ Days Past Due (P9 prefix)**:
+    - P9ASSET - Total assets past due 90+ days
+    - P9RE - Real estate loans past due 90+ days
+    - P9AG - Agricultural loans past due 90+ days
+    - P9CI - Commercial and industrial loans past due 90+ days
+    - And other P9-prefixed fields
+  - **Nonaccrual (NA prefix)**:
+    - NAASSET - Total nonaccrual assets
+    - NARE - Nonaccrual real estate loans
+    - NAAG - Nonaccrual agricultural loans
+    - NACI - Nonaccrual commercial and industrial loans
+    - And other NA-prefixed fields
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=past_due_nonaccrual_report"
+```
+
+## Key Fields Explained
+
+### 30-89 Days Past Due (P3 prefix)
+- **P3ASSET** - Total assets past due 30-89 days
+- **P3RE** - Real estate loans past due 30-89 days
+- **P3AG** - Agricultural loans past due 30-89 days
+- **P3CI** - Commercial and industrial loans past due 30-89 days
+- **P3CON** - Consumer loans past due 30-89 days
+- **P3CRCD** - Credit card loans past due 30-89 days
+- **P3AUTO** - Auto loans past due 30-89 days
+
+### 90+ Days Past Due (P9 prefix)
+- **P9ASSET** - Total assets past due 90+ days
+- **P9RE** - Real estate loans past due 90+ days
+- **P9AG** - Agricultural loans past due 90+ days
+- **P9CI** - Commercial and industrial loans past due 90+ days
+- **P9CON** - Consumer loans past due 90+ days
+- **P9CRCD** - Credit card loans past due 90+ days
+- **P9AUTO** - Auto loans past due 90+ days
+
+### Nonaccrual (NA prefix)
+- **NAASSET** - Total nonaccrual assets
+- **NARE** - Nonaccrual real estate loans
+- **NAAG** - Nonaccrual agricultural loans
+- **NACI** - Nonaccrual commercial and industrial loans
+- **NACON** - Nonaccrual consumer loans
+- **NACRCD** - Nonaccrual credit card loans
+- **NAAUTO** - Nonaccrual auto loans
+
+## Use Cases
+
+- Credit risk assessment
+- Asset quality monitoring
+- Regulatory compliance reporting
+- Portfolio risk analysis
+- Early warning indicators for problem assets
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Past due and nonaccrual assets are key indicators of credit quality
+- Compare these metrics over time to identify trends in asset quality
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
