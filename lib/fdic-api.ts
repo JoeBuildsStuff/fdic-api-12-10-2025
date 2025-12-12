@@ -129,3 +129,4 @@ export function formatPercentage(value: unknown): string {
   if (isNaN(num)) return String(value);
   return `${num.toFixed(2)}%`;
 }
+
