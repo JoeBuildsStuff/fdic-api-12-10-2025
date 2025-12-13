@@ -1,7 +1,9 @@
 {
   "pages": [
+    "---Overview---",
     "index",
     "variable-reference",
+    "---Endpoints---",
     "searchInstitutions",
     "getFinancials",
     "searchLocations",
@@ -10,13 +12,9 @@
     "getHistory",
     "getSod",
     "getFailures",
-    "report-total-assets",
-    "report-liabilities-capital",
-    "report-past-due-nonaccrual",
-    "report-loss-sharing",
-    "report-off-balance-sheet",
-    "report-fiduciary",
-    "report-assets-sold-securitized"
+    "---Reports---",
+    "./(assets)"
   ]
 }
+
 

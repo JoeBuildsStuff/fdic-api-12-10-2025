@@ -54,12 +54,12 @@ export default function FiduciaryReport() {
     {
       key: 'TRPOWER',
       label: 'Powers Granted',
-      format: (v) => (v === 1 ? 'Yes' : 'No'),
+      format: (v: unknown) => (Number(v) === 1 ? 'Yes' : 'No'),
     },
     {
       key: 'TREXER',
       label: 'Powers Exercised',
-      format: (v) => (v === 1 ? 'Yes' : 'No'),
+      format: (v: unknown) => (Number(v) === 1 ? 'Yes' : 'No'),
     },
     {
       key: 'TFRA',
@@ -88,7 +88,7 @@ export default function FiduciaryReport() {
     {
       key: 'TTNANUM',
       label: 'Total Accounts',
-      format: (v) => v ? Number(v).toLocaleString() : '—',
+      format: (v: unknown) => v ? Number(v).toLocaleString() : '—',
       className: 'text-right',
     },
     {
@@ -114,4 +114,5 @@ export default function FiduciaryReport() {
     </div>
   );
 }
+
 
