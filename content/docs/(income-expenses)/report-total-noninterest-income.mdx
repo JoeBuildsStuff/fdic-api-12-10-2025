@@ -1,0 +1,104 @@
+---
+title: Total Noninterest Income Report
+description: Standard report showing total noninterest income breakdown for FDIC-insured institutions
+---
+
+# Total Noninterest Income Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/total-noninterest-income-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of total noninterest income for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following noninterest income categories:
+
+- **Fiduciary Activities** - Income from fiduciary and trust activities
+- **Service Charges on Deposit Accounts** - Fees charged on deposit accounts
+- **Trading Account Gains & Fees** - Gains and fees from trading activities
+- **Additional Noninterest Income** - Including:
+  - Investment banking, venture capital, and merchant banking fees
+  - Venture capital income
+  - Service fees
+  - Securities brokerage commissions
+  - Insurance commissions
+  - Insurance underwriting income
+  - Insurance other income
+  - Net gains (losses) on loans
+  - Net gains (losses) on real estate
+  - Net gains (losses) on assets
+  - Other noninterest income
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=ASSET,DEP,CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,NONII,IFIDUC,ISERCHG,IGLTRAD,IGLRTEX,IGLFXEX,IGLEDEX,IGLCMEX,IGLCREX,ADDNONII,IINVFEE,IVENCAP,ISERFEE,ISECZ,IINSCOM,IINSUND,IINSOTH,NETGNSLN,NETGNSRE,NETGNAST,IOTNII&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Noninterest income-related fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total noninterest income (NONII)
+  - Fiduciary activities (IFIDUC)
+  - Service charges (ISERCHG)
+  - Trading account gains (IGLTRAD, IGLRTEX, IGLFXEX, IGLEDEX, IGLCMEX, IGLCREX)
+  - Additional noninterest income (ADDNONII, IINVFEE, IVENCAP, ISERFEE, ISECZ, IINSCOM, IINSUND, IINSOTH)
+  - Net gains on loans, real estate, and assets (NETGNSLN, NETGNSRE, NETGNAST)
+  - Other noninterest income (IOTNII)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=total_noninterest_income_report"
+```
+
+## Key Fields Explained
+
+- **NONII** - Total noninterest income
+- **IFIDUC** - Income from fiduciary activities
+- **ISERCHG** - Service charges on deposit accounts
+- **IGLTRAD** - Trading account gains and fees
+- **ADDNONII** - Additional noninterest income
+- **NETGNSLN** - Net gains (losses) on loans
+- **NETGNSRE** - Net gains (losses) on real estate
+- **NETGNAST** - Net gains (losses) on assets
+- **IOTNII** - Other noninterest income
+
+## Use Cases
+
+- Fee income analysis and benchmarking
+- Revenue diversification analysis
+- Trading activity evaluation
+- Regulatory reporting
+- Market research
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+

@@ -1,0 +1,14 @@
+{
+  "title": "Income & Expenses",
+  "pages": [
+    "report-total-interest-income",
+    "report-total-interest-expense",
+    "report-total-noninterest-income",
+    "report-total-noninterest-expense",
+    "report-net-charge-offs",
+    "report-total-charge-offs",
+    "report-total-recoveries",
+    "report-cash-dividends"
+  ]
+}
+

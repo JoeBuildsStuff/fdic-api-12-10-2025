@@ -1,0 +1,102 @@
+---
+title: Net Charge-Offs Report
+description: Standard report showing net charge-offs by loan category for FDIC-insured institutions
+---
+
+# Net Charge-Offs Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/net-charge-offs-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of net charge-offs by loan category for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes net charge-offs for the following loan categories:
+
+- **Loans Secured by Real Estate, Total** - All real estate secured loans
+- **Loans to Depository Institutions** - Loans to other banks and depository institutions
+- **Loans to Finance Agricultural Production and Other Loans to Farmers** - Agricultural loans
+- **Commercial and Industrial Loans** - Business loans
+- **Loans to Individuals** - Consumer loans including credit cards, auto loans, and other personal loans
+- **Loans to Foreign Governments and Official Institutions** - International loans
+- **Other Loans** - Miscellaneous loans not categorized elsewhere
+- **Lease Financing Receivables** - Net charge-offs on leases
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,NTLNLS,NTRE,NTRENUS,NTREOFFDOM,NTRECONS,NTREAG,NTRERES,NTRERSFM,NTRERSF2,NTRELOC,NTREMULT,NTRENRES,NTREFOR,NTDEP,NTDEPNUS,NTAG,NTCI,NTCINUS,NTCON,NTCRCD,NTAUTO,NTCONOTH,NTFORGV,NTOTHER,NTLS,NTAGSM&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Net charge-off fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total net charge-offs (NTLNLS)
+  - Real estate loans (NTRE, NTRENUS, NTREOFFDOM, NTRECONS, NTREAG, NTRERES, NTRERSFM, NTRERSF2, NTRELOC, NTREMULT, NTRENRES, NTREFOR)
+  - Loans to depository institutions (NTDEP, NTDEPNUS)
+  - Agricultural loans (NTAG, NTAGSM)
+  - Commercial and industrial loans (NTCI, NTCINUS)
+  - Consumer loans (NTCON, NTCRCD, NTAUTO, NTCONOTH)
+  - Foreign government loans (NTFORGV)
+  - Other loans (NTOTHER)
+  - Lease financing (NTLS)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=net_charge_offs_report"
+```
+
+## Key Fields Explained
+
+- **NTLNLS** - Total net charge-offs on loans and leases
+- **NTRE** - Net charge-offs on real estate loans
+- **NTDEP** - Net charge-offs on loans to depository institutions
+- **NTAG** - Net charge-offs on agricultural loans
+- **NTCI** - Net charge-offs on commercial and industrial loans
+- **NTCON** - Net charge-offs on consumer loans
+- **NTCRCD** - Net charge-offs on credit card loans
+- **NTAUTO** - Net charge-offs on auto loans
+- **NTFORGV** - Net charge-offs on loans to foreign governments
+- **NTOTHER** - Net charge-offs on other loans
+- **NTLS** - Net charge-offs on lease financing receivables
+
+## Use Cases
+
+- Credit risk analysis and benchmarking
+- Loan loss trend analysis
+- Portfolio quality assessment
+- Regulatory reporting
+- Risk management
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+- Net charge-offs = Total charge-offs minus recoveries
+

@@ -1,0 +1,87 @@
+---
+title: Cash Dividends & Other Report
+description: Standard report showing cash dividends and other capital-related items for FDIC-insured institutions
+---
+
+# Cash Dividends & Other Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/cash-dividends-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of cash dividends and other capital-related items for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following categories:
+
+- **Cash Dividends Declared on Preferred Stock** - Dividends paid to preferred shareholders
+- **Cash Dividends Declared on Common Stock** - Dividends paid to common shareholders
+- **Net Additions to Capital Stock** - Net changes in capital stock
+- **Net Operating Income** - Net operating income for the period
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,EQCDIV,EQCDIVP,EQCDIVC,EQCSTKRX,NOIJ&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Cash dividends and capital-related fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total cash dividends (EQCDIV)
+  - Preferred stock dividends (EQCDIVP)
+  - Common stock dividends (EQCDIVC)
+  - Net additions to capital stock (EQCSTKRX)
+  - Net operating income (NOIJ)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=cash_dividends_report"
+```
+
+## Key Fields Explained
+
+- **EQCDIV** - Total cash dividends declared
+- **EQCDIVP** - Cash dividends declared on preferred stock
+- **EQCDIVC** - Cash dividends declared on common stock
+- **EQCSTKRX** - Net additions to capital stock
+- **NOIJ** - Net operating income
+
+## Use Cases
+
+- Dividend policy analysis and benchmarking
+- Capital management evaluation
+- Shareholder return analysis
+- Regulatory reporting
+- Financial performance assessment
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+

@@ -13,7 +13,8 @@
     "getSod",
     "getFailures",
     "---Reports---",
-    "./(assets)"
+    "./(assets)",
+    "./(income-expenses)"
   ]
 }
 

@@ -1,0 +1,99 @@
+---
+title: Total Interest Income Report
+description: Standard report showing total interest income breakdown for FDIC-insured institutions
+---
+
+# Total Interest Income Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/total-interest-income-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of total interest income for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following interest income categories:
+
+- **Domestic Office Loans** - Interest income from loans made by domestic offices
+- **Foreign Office Loans** - Interest income from loans made by foreign offices
+- **Lease Financing Receivables** - Interest income from lease financing
+- **Balances Due from Depository Institutions** - Interest on balances with other banks
+- **Securities** - Interest income from investment securities
+- **Trading Accounts** - Interest income from trading account assets
+- **Federal Funds Sold** - Interest income from federal funds sold and reverse repurchase agreements
+- **Other Interest Income** - Miscellaneous interest income not categorized elsewhere
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=ASSET,DEP,CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,INTINC,ILNDOM,ILNFOR,ILS,ICHBAL,ISC,ITRADE,IFREPO,IOTHII&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Interest income-related fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total interest income (INTINC)
+  - Domestic office loans (ILNDOM)
+  - Foreign office loans (ILNFOR)
+  - Lease financing (ILS)
+  - Balances due from depository institutions (ICHBAL)
+  - Securities (ISC)
+  - Trading accounts (ITRADE)
+  - Federal funds sold (IFREPO)
+  - Other interest income (IOTHII)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=total_interest_income_report"
+```
+
+## Key Fields Explained
+
+- **INTINC** - Total interest income
+- **ILNDOM** - Interest income from domestic office loans
+- **ILNFOR** - Interest income from foreign office loans
+- **ILS** - Interest income from lease financing receivables
+- **ICHBAL** - Interest income from balances due from depository institutions
+- **ISC** - Interest income from securities
+- **ITRADE** - Interest income from trading accounts
+- **IFREPO** - Interest income from federal funds sold and reverse repurchase agreements
+- **IOTHII** - Other interest income
+
+## Use Cases
+
+- Revenue analysis and benchmarking
+- Interest income trend analysis
+- Portfolio performance evaluation
+- Regulatory reporting
+- Market research
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+

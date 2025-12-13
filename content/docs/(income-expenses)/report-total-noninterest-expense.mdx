@@ -1,0 +1,104 @@
+---
+title: Total Noninterest Expense & Other Report
+description: Standard report showing total noninterest expense and other income statement items for FDIC-insured institutions
+---
+
+# Total Noninterest Expense & Other Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/total-noninterest-expense-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of total noninterest expense and other income statement items for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following categories:
+
+- **Salaries and Employee Benefits** - Compensation and benefits expense
+- **Premises and Equipment Expense** - Occupancy and equipment costs
+- **Additional Noninterest Expense** - Other operating expenses
+- **Pre-tax Net Operating Income** - Income before taxes and extraordinary items
+- **Securities Gains (Losses)** - Gains or losses on sale of securities
+- **Applicable Income Taxes** - Income tax expense
+- **Income Before Extraordinary Items** - Net income before extraordinary items
+- **Discontinued Operations (Extraordinary Gains - Net)** - Extraordinary items and discontinued operations
+- **Net Income Attributable to Bank and Noncontrolling Interests** - Total net income
+- **Net Income Attributable to Noncontrolling Interests** - Noncontrolling interest portion
+- **Net Income Attributable to Bank** - Net income attributable to the bank
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,NONIX,ESAL,EPREMAGG,ADDNONINTEXP,EAMINTAN,EINTOTH,EINTGW,EOTHNINT,PTAXNETINC,IGLSEC,ITAX,IBEFXTR,EXTRA,NETINBM,NETIMIN,NETINC&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Noninterest expense and income statement fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total noninterest expense (NONIX)
+  - Salaries and benefits (ESAL)
+  - Premises and equipment (EPREMAGG)
+  - Additional noninterest expense (ADDNONINTEXP, EAMINTAN, EINTOTH, EINTGW, EOTHNINT)
+  - Pre-tax net operating income (PTAXNETINC)
+  - Securities gains/losses (IGLSEC)
+  - Income taxes (ITAX)
+  - Income before extraordinary items (IBEFXTR)
+  - Extraordinary items (EXTRA)
+  - Net income items (NETINBM, NETIMIN, NETINC)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=total_noninterest_expense_report"
+```
+
+## Key Fields Explained
+
+- **NONIX** - Total noninterest expense
+- **ESAL** - Salaries and employee benefits
+- **EPREMAGG** - Premises and equipment expense
+- **ADDNONINTEXP** - Additional noninterest expense
+- **PTAXNETINC** - Pre-tax net operating income
+- **IGLSEC** - Securities gains (losses)
+- **ITAX** - Applicable income taxes
+- **IBEFXTR** - Income before extraordinary items
+- **EXTRA** - Discontinued operations and extraordinary items
+- **NETINC** - Net income attributable to bank
+
+## Use Cases
+
+- Operating expense analysis and benchmarking
+- Profitability analysis
+- Efficiency ratio evaluation
+- Regulatory reporting
+- Financial performance assessment
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+

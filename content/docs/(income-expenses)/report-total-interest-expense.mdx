@@ -1,0 +1,93 @@
+---
+title: Total Interest Expense Report
+description: Standard report showing total interest expense breakdown for FDIC-insured institutions
+---
+
+# Total Interest Expense Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/total-interest-expense-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides a comprehensive breakdown of total interest expense for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following interest expense categories:
+
+- **Domestic Office Deposits** - Interest expense on deposits in domestic offices
+- **Foreign Office Deposits** - Interest expense on deposits in foreign offices
+- **Federal Funds Purchased** - Interest expense on federal funds purchased and repurchase agreements
+- **Other Interest Expense** - Miscellaneous interest expense not categorized elsewhere
+- **Net Interest Income** - Total interest income minus total interest expense
+- **Provision For Credit Losses** - Provision for credit losses on loans and leases
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,EINTEXP,EDEPDOM,EDEPFOR,EFREPP,EOTHINT,NIM,ELNATR&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Interest expense-related fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Total interest expense (EINTEXP)
+  - Domestic office deposits (EDEPDOM)
+  - Foreign office deposits (EDEPFOR)
+  - Federal funds purchased (EFREPP)
+  - Other interest expense (EOTHINT)
+  - Net interest margin (NIM)
+  - Provision for credit losses (ELNATR)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=total_interest_expense_report"
+```
+
+## Key Fields Explained
+
+- **EINTEXP** - Total interest expense
+- **EDEPDOM** - Interest expense on domestic office deposits
+- **EDEPFOR** - Interest expense on foreign office deposits
+- **EFREPP** - Interest expense on federal funds purchased and repurchase agreements
+- **EOTHINT** - Other interest expense
+- **NIM** - Net interest margin
+- **ELNATR** - Provision for credit losses
+
+## Use Cases
+
+- Cost analysis and benchmarking
+- Interest expense trend analysis
+- Net interest margin evaluation
+- Regulatory reporting
+- Profitability analysis
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+
