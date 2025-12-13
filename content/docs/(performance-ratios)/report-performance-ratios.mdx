@@ -1,0 +1,167 @@
+---
+title: Performance & Condition Ratios Report
+description: Standard report showing performance and condition ratios for FDIC-insured institutions
+---
+
+# Performance & Condition Ratios Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/performance-ratios-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides comprehensive performance and condition ratios for active FDIC-insured institutions, excluding non-chartered institutions. These ratios are essential for analyzing bank profitability, efficiency, asset quality, and capital adequacy.
+
+## Report Components
+
+The report includes the following ratio categories:
+
+### Performance and Condition Ratios
+
+- **Number of Institutions Reporting** - Count of institutions in the dataset
+- **% of Unprofitable Institutions** - Percentage of institutions with negative net income
+- **% of Institutions with Earning Gains** - Percentage of institutions with positive earnings
+
+### Performance Ratios (%, annualized)
+
+- **Yield on Earning Assets** - Interest income as a percentage of earning assets
+- **Costs of Funding Earning Assets** - Interest expense as a percentage of earning assets
+- **Net Interest Margin** - Net interest income as a percentage of earning assets
+- **Noninterest Income to Average Assets** - Noninterest income as a percentage of average assets
+- **Noninterest Expense to Average Assets** - Noninterest expense as a percentage of average assets
+- **Credit Loss Provision to Assets** - Provision for credit losses as a percentage of assets
+- **Net Operating Income to Assets** - Net operating income as a percentage of assets
+- **Return on Assets (ROA)** - Net income as a percentage of average assets
+- **Pretax Return on Assets** - Pretax income as a percentage of average assets
+- **Return on Equity (ROE)** - Net income as a percentage of average equity
+- **Retained Earnings to Average Equity** - Retained earnings as a percentage of average equity (YTD only)
+- **Net Charge-Offs to Loans and Leases** - Net charge-offs as a percentage of loans and leases
+- **Loan and Lease Loss Provision to Net Charge-Offs** - Provision coverage ratio
+- **Earnings Coverage of Net Loan Charge-Offs** - Earnings multiple covering net charge-offs
+- **Efficiency Ratio** - Noninterest expense divided by net interest income plus noninterest income
+- **Assets Per Employee** - Total assets divided by number of employees ($Millions)
+- **Cash Dividends to Net Income** - Cash dividends as a percentage of net income (YTD Only)
+
+### Condition Ratios
+
+- **Earning Assets to Total Assets** - Earning assets as a percentage of total assets
+- **Loss Allowance to Loans and Leases** - Allowance for loan losses as a percentage of loans
+- **Loss Allowance to Noncurrent Loans and Leases** - Allowance coverage of noncurrent loans
+- **Noncurrent Assets Plus Other Real Estate Owned to Assets** - Problem assets as a percentage of total assets
+- **Noncurrent Loans to Loans** - Noncurrent loans as a percentage of total loans
+- **Net Loans and Leases to Assets** - Net loans as a percentage of total assets
+- **Net Loans and Leases to Deposits** - Net loans as a percentage of total deposits
+- **Net Loans and Leases to Core Deposits** - Net loans as a percentage of core deposits
+- **Domestic Deposits to Total Assets** - Domestic deposits as a percentage of total assets
+- **Equity Capital to Assets** - Total equity as a percentage of total assets
+- **Leverage (Core Capital) Ratio** - Tier 1 capital as a percentage of average assets
+- **Community Bank Leverage Ratio Election** - CBLR election indicator (1 = Yes)
+- **Common Equity Tier 1 Capital Ratio** - CET1 capital as a percentage of risk-weighted assets
+- **Tier 1 Risk-Based Capital Ratio** - Tier 1 capital as a percentage of risk-weighted assets
+- **Total Risk-Based Capital Ratio** - Total capital as a percentage of risk-weighted assets
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=CERT,RSSDHCR,NAMEFULL,CITY,STALP,ZIP,REPDTE,BKCLASS,NAMEHCR,OFFDOM,SPECGRP,SUBCHAPS,ESTYMD,INSDATE,EFFDATE,MUTUAL,PARCERT,TRUST,REGAGNT,INSAGNT1,FDICDBS,FDICSUPV,FLDOFF,FED,OCCDIST,OTSREGNM,OFFOA,CB,NTINCL,NTINCHPP,INTINCY,INTEXPY,NIMY,NONIIAY,NONIXAY,ELNATRY,NOIJY,ROA,ROAPTX,ROE,ROEINJR,NTLNLSR,NTRER,NTRECOSR,NTRENRSR,NTREMULR,NTRERESR,NTRELOCR,NTREOTHR,IDNTCIR,IDNTCONR,IDNTCRDR,IDNTCOOR,NTAUTOPR,NTCONOTR,NTALLOTHR,NTCOMRER,ELNANTR,IDERNCVR,EEFFR,ASTEMPM,EQCDIVNTINC,ERNASTR,LNATRESR,LNRESNCR,NPERFV,NCLNLS,NCLNLSR,NCRER,NCRECONR,NCRENRER,NCREMULR,NCRERESR,NCRELOCR,NCREREOR,IDNCCIR,IDNCCONR,IDNCCRDR,IDNCCOOR,IDNCATOR,IDNCCOTR,IDNCOTHR,NCCOMRER,IDNCGTPR,LNLSNTV,LNLSDEPR,IDLNCORR,DEPDASTR,EQV,RBC1AAJ,CBLRIND,IDTICER,IDTIRWAJR,RBCRWAJ&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Performance and condition ratio fields including:
+  - Institution identifiers (CERT, RSSDHCR, NAMEFULL, etc.)
+  - Performance ratios (INTINCY, INTEXPY, NIMY, NONIIAY, NONIXAY, ELNATRY, NOIJY, ROA, ROAPTX, ROE, ROEINJR)
+  - Charge-off ratios (NTLNLSR, NTRER, IDNTCIR, IDNTCONR, IDNTCRDR, etc.)
+  - Coverage ratios (ELNANTR, IDERNCVR, EEFFR)
+  - Efficiency metrics (ASTEMPM, EQCDIVNTINC)
+  - Asset quality ratios (ERNASTR, LNATRESR, LNRESNCR, NPERFV, NCLNLS, NCLNLSR)
+  - Capital ratios (EQV, RBC1AAJ, CBLRIND, IDTICER, IDTIRWAJR, RBCRWAJ)
+  - Loan-to-deposit ratios (LNLSNTV, LNLSDEPR, IDLNCORR, DEPDASTR)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=performance_ratios_report"
+```
+
+## Key Fields Explained
+
+### Performance Ratios
+
+- **INTINCY** - Yield on earning assets (%)
+- **INTEXPY** - Costs of funding earning assets (%)
+- **NIMY** - Net interest margin (%)
+- **NONIIAY** - Noninterest income to average assets (%)
+- **NONIXAY** - Noninterest expense to average assets (%)
+- **ELNATRY** - Credit loss provision to assets (%)
+- **NOIJY** - Net operating income to assets (%)
+- **ROA** - Return on assets (%)
+- **ROAPTX** - Pretax return on assets (%)
+- **ROE** - Return on equity (%)
+- **ROEINJR** - Retained earnings to average equity (%)
+- **NTLNLSR** - Net charge-offs to loans and leases (%)
+- **ELNANTR** - Loan and lease loss provision to net charge-offs
+- **IDERNCVR** - Earnings coverage of net loan charge-offs (x)
+- **EEFFR** - Efficiency ratio (%)
+- **ASTEMPM** - Assets per employee ($Millions)
+- **EQCDIVNTINC** - Cash dividends to net income (%)
+
+### Condition Ratios
+
+- **ERNASTR** - Earning assets to total assets (%)
+- **LNATRESR** - Loss allowance to loans and leases (%)
+- **LNRESNCR** - Loss allowance to noncurrent loans and leases (%)
+- **NPERFV** - Noncurrent assets plus ORE to assets (%)
+- **NCLNLS** - Noncurrent loans and leases
+- **NCLNLSR** - Noncurrent loans to loans (%)
+- **LNLSNTV** - Net loans and leases to assets (%)
+- **LNLSDEPR** - Net loans and leases to deposits (%)
+- **IDLNCORR** - Net loans and leases to core deposits (%)
+- **DEPDASTR** - Domestic deposits to total assets (%)
+- **EQV** - Equity capital to assets (%)
+- **RBC1AAJ** - Leverage (core capital) ratio (%)
+- **CBLRIND** - Community Bank Leverage Ratio Election (1 = Yes)
+- **IDTICER** - Common Equity Tier 1 capital ratio (%)
+- **IDTIRWAJR** - Tier 1 risk-based capital ratio (%)
+- **RBCRWAJ** - Total risk-based capital ratio (%)
+
+## Use Cases
+
+- Bank performance benchmarking and analysis
+- Profitability and efficiency evaluation
+- Asset quality assessment
+- Capital adequacy analysis
+- Regulatory compliance monitoring
+- Peer group comparisons
+- Risk assessment
+- Investment analysis
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+- Most ratios are annualized percentages
+- Some ratios are only available on a year-to-date (YTD) basis
+- Capital ratios are critical for regulatory compliance and should be monitored regularly
+

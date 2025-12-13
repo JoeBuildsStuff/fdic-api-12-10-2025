@@ -1,0 +1,145 @@
+---
+title: Demographic Information Report
+description: Standard report showing demographic and structural information for FDIC-insured institutions
+---
+
+# Demographic Information Report
+
+<Cards>
+  <Card title="View Interactive Example" href="/example/demographic-information-report" description="See this report with live data from the FDIC API, including searchable tables and interactive filtering" />
+</Cards>
+
+This standard report provides comprehensive demographic and structural information for active FDIC-insured institutions, excluding non-chartered institutions.
+
+## Report Components
+
+The report includes the following demographic and structural categories:
+
+- **Status** - Institution status (active/inactive)
+- **Bank Holding Company (Regulatory Top Holder)** - Parent holding company information
+- **Certificate #** - FDIC certificate number
+- **Federal Reserve ID Number** - RSSD ID number
+- **Institution Name** - Full legal name and name of top holder
+- **City, State, Zip** - Geographic location
+- **Number of Domestic Offices** - Count of domestic branch offices
+- **Number of Foreign Offices** - Count of foreign branch offices
+- **Offices in Insured Other Areas** - Offices in other insured areas
+- **Asset Concentration Hierarchy** - Specialization group classification
+- **Subchapter S Corporation** - S-Corp status
+- **County** - County location
+- **Metropolitan Statistical Area** - MSA/CBSA designation
+- **Established Date** - Date institution was established
+- **Date of Deposit Insurance** - Date FDIC insurance began
+- **Last Structure Change Process Date** - Date of last structural change processing
+- **Last Structure Change Effective Date** - Effective date of last structural change
+- **Ownership Type** - Mutual or stock ownership
+- **Directly Owned by Another Bank** - Parent bank certificate number
+- **FDIC Community Bank** - Community bank designation
+- **Trust Powers Granted** - Trust powers status
+- **Bank Charter Class** - Charter classification
+- **Regulator** - Primary federal regulator
+- **CFPB Supervised** - CFPB supervision status
+- **Insurance Fund Membership** - FDIC insurance fund membership
+- **FDIC Quarterly Banking Profile Region** - QBP region
+- **FDIC Geographic Region** - Geographic region
+- **FDIC Supervisory Region** - Supervisory region
+- **FDIC Field Office** - Field office assignment
+- **Federal Reserve District** - Fed district
+- **Office of the Comptroller of the Currency District** - OCC district
+- **FFIEC Call Form** - Call report form type
+- **Primary Web Address** - Institution website
+- **Other Name** - Alternative name
+- **Other Website** - Additional website
+
+## API Request
+
+### Endpoint
+
+```
+GET /api/financials
+```
+
+### Example Request
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=ACTIVE,BKCLASS,CALLFORM,CB,CBSA,CERT,CITY,EFFDATE,ESTYMD,FDICDBS,FDICDBSDESC,FDICSUPV,FDICSUPVDESC,FED,FEDDESC,FLDOFF,INSAGNT1,INSDATE,MUTUAL,NAME,NAMEFULL,NAMEHCR,OCCDIST,OCCDISTDESC,OFFDOM,OFFFOR,OFFOA,OTSREGNM,PARCERT,QBPRCOMLDESC,REGAGNT,REPDTE,RSSDHCR,RSSDID,SPECGRP,SPECGRPDESC,STALP,STCNTY,SUBCHAPS,TRUST,ZIP&sort_by=REPDTE&sort_order=DESC&limit=10000&offset=0&format=json"
+```
+
+### Parameters
+
+- **filters**: `ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930`
+  - `ACTIVE:1` - Only active institutions
+  - `!(BKCLASS:NC)` - Exclude non-chartered institutions
+  - `REPDTE:20220930` - Report date (Q3 2022 - adjust as needed)
+  
+- **fields**: Demographic and structural fields including:
+  - Institution identifiers (CERT, RSSDHCR, RSSDID, NAME, NAMEFULL, NAMEHCR)
+  - Geographic information (CITY, STALP, ZIP, STCNTY, CBSA)
+  - Status and structure (ACTIVE, BKCLASS, MUTUAL, PARCERT, SUBCHAPS)
+  - Office counts (OFFDOM, OFFFOR, OFFOA)
+  - Regulatory information (REGAGNT, FDICSUPV, FDICSUPVDESC, FED, FEDDESC, OCCDIST, OCCDISTDESC, FLDOFF)
+  - Dates (ESTYMD, INSDATE, EFFDATE, REPDTE)
+  - Special classifications (CB, TRUST, SPECGRP, SPECGRPDESC, CALLFORM)
+  - Regional information (QBPRCOMLDESC, FDICDBS, OTSREGNM)
+
+- **sort_by**: `REPDTE` (Report Date)
+- **sort_order**: `DESC` (Descending - most recent first)
+- **limit**: `10000` (Maximum records)
+- **format**: `json` or `csv` (for download)
+
+### CSV Download
+
+To download as CSV:
+
+```bash
+curl "https://api.fdic.gov/banks/api/financials?filters=ACTIVE:1 AND !(BKCLASS:NC) AND REPDTE:20220930&fields=...&format=csv&download=true&filename=demographic_information_report"
+```
+
+## Key Fields Explained
+
+- **ACTIVE** - Institution status (1 = active)
+- **BKCLASS** - Bank charter class
+- **CERT** - FDIC certificate number
+- **RSSDHCR** - RSSD ID of top holder
+- **RSSDID** - RSSD ID of institution
+- **NAMEFULL** - Full legal name
+- **NAMEHCR** - Name of top holder
+- **CITY, STALP, ZIP** - Geographic location
+- **STCNTY** - County code
+- **CBSA** - Core Based Statistical Area (MSA)
+- **OFFDOM** - Number of domestic offices
+- **OFFFOR** - Number of foreign offices
+- **OFFOA** - Offices in insured other areas
+- **ESTYMD** - Established date
+- **INSDATE** - Date of deposit insurance
+- **EFFDATE** - Last structure change effective date
+- **MUTUAL** - Mutual institution flag
+- **PARCERT** - Parent bank certificate number
+- **CB** - FDIC community bank designation
+- **TRUST** - Trust powers granted flag
+- **SUBCHAPS** - Subchapter S corporation flag
+- **REGAGNT** - Primary federal regulator
+- **FDICSUPV** - FDIC supervisory region
+- **FED** - Federal Reserve district
+- **OCCDIST** - OCC district
+- **FLDOFF** - FDIC field office
+- **SPECGRP** - Asset concentration hierarchy code
+- **CALLFORM** - FFIEC call form type
+
+## Use Cases
+
+- Institution lookup and identification
+- Geographic analysis and mapping
+- Regulatory structure analysis
+- Market research and segmentation
+- Branch network analysis
+- Historical tracking of structural changes
+
+## Notes
+
+- Update the `REPDTE` filter to get data for different reporting periods
+- The report date format is `YYYYMMDD` (e.g., `20220930` for September 30, 2022)
+- Adjust the date range in the filter to get historical comparisons
+- For quarterly reports, use quarter-end dates: `20220331`, `20220630`, `20220930`, `20221231`
+- Demographic information is relatively stable but may change with mergers, acquisitions, or structural changes
+

@@ -14,7 +14,9 @@
     "getFailures",
     "---Reports---",
     "./(assets)",
-    "./(income-expenses)"
+    "./(income-expenses)",
+    "./(demographics)",
+    "./(performance-ratios)"
   ]
 }
 
